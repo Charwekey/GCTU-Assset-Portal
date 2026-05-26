@@ -1,59 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GCTU Asset & Procurement Tracking System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+An enterprise-grade asset registry, procurement lifecycle workflow, project spending tracker, and budget utilization monitoring portal designed for **Ghana Communication Technology University (GCTU)**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 💻 Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **Backend**: Laravel 13 & PHP 8.3
+* **Database**: SQLite (local development) / MySQL (production)
+* **Frontend**: Tailwind CSS v4 & Blade templating (with Alpine.js)
+* **Authentication**: Laravel Breeze
+* **Authorization**: Laravel Policies & Gates (RBAC)
+* **Bundler**: Vite
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠️ Core Modules & Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. User Authentication & Role Management
+* Strong encryption with custom attributes for `role` and `department_id`.
+* Scoped access levels for **Admin**, **Department Manager**, **Officer**, and **Auditor**.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Asset Management Registry
+* Register university assets with fields: Code, Category, Department, Cost, Vendor, Warranty, and Condition.
+* Log asset movement and filter by condition (New, Good, Fair, Poor, Disposed) and status (Active, Maintenance, Disposed).
+* Dedicated asset profile page featuring total and historical **Maintenance Logs**.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### 3. Procurement Workflow Lifecycle
+* Create procurement records mapped to departments and vendors.
+* Strict state transitions: `Pending` ➔ `Approved` ➔ `In Progress` ➔ `Completed` / `Cancelled`.
+* **Auto-Asset Registration**: Completing a procurement allows a single-click registration of the item as an active asset in the GCTU registry.
 
-## Agentic Development
+### 4. Project Expenditure & Progress Tracking
+* Create projects with allocated budgets and expected completion timelines.
+* Interactive progress sliders and spending logs for Officers and Managers.
+* Visual progress bars in list views.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 5. Departmental Budget & Safety Limits
+* Real-time budget headroom calculations (Committed Spend = Project Spending + Approved Procurements).
+* Warning alerts if a pending procurement request overruns the department's budget cap limit.
+* Colorful progress indicators on the dashboard summarizing budget utilization.
 
-```bash
-composer require laravel/boost --dev
+### 6. Reports & CSV Exports
+* Download spreadsheet exports with dynamic timestamps for all Assets, Procurements, and Projects.
 
-php artisan boost:install
-```
+### 7. Interactive Analytics Dashboard
+* Key Performance Indicators (KPIs) showing asset counts, active projects, and pending approvals.
+* Custom **Chart.js** doughnut charts showing condition breakdowns.
+* Activity feeds and maintenance alert lists.
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 8. Audit Logs
+* Track every user registration, modification, deletion, approval, and cancellation with IP logs, timestamps, and description records.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🔑 Test Login Credentials
 
-## Code of Conduct
+To test the system locally, run migrations and seed database, then login at `http://gctu-assset-portal.test/login` (or localhost address) with:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Role | Email | Password | Scope / Permissions |
+| :--- | :--- | :--- | :--- |
+| **System Administrator** | `admin@gctu.edu.gh` | `password` | Global read/write, admin settings, full audit trail. |
+| **Department Manager** | `manager@gctu.edu.gh` | `password` | Manage CS & IT department assets, projects, and approvals. |
+| **Department Officer** | `officer@gctu.edu.gh` | `password` | Log maintenance, request procurements, update project progress. |
+| **Internal Auditor** | `auditor@gctu.edu.gh` | `password` | Read-only access to all modules, settings, and audit logs. |
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🚀 Local Installation & Setup
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# GCTU-Assset-Portal" 
+1. **Clone the repository** and change directory.
+2. **Setup environment variables**:
+   ```bash
+   copy .env.example .env
+   ```
+3. **Install composer packages**:
+   ```bash
+   composer install
+   ```
+4. **Clean-install node modules & compile**:
+   ```bash
+   npm install
+   npm run build
+   ```
+5. **Fresh migrate and seed the database**:
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+6. **Generate application key**:
+   ```bash
+   php artisan key:generate
+   ```
+7. **Serve the application**:
+   ```bash
+   php artisan serve
+   ```
+   Or access via Herd/Laragon local domain: `http://gctu-assset-portal.test`.
